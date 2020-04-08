@@ -6,5 +6,5 @@ const defaultConfig: AxiosRequestConfig = {
   timeout: 7000,
   headers: { "X-API-KEY": RESAS_API_KEY },
 };
-console.log(defaultConfig);
+
 export const axiosInstance = axios.create(defaultConfig);
