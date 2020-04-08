@@ -1,7 +1,5 @@
 import React, { FC } from "react";
-
-const App: FC = () => {
-  return <div>test</div>;
-};
+import { Home } from "./components/pages/Home";
+const App: FC = () => <Home />;
 
 export default App;
