@@ -3,24 +3,29 @@ import { Prefecture } from "../../services/prefectures/models";
 
 type PropsType = {
   prefectures: Prefecture[];
-  handleSelectPrefecture: (prefecture: Prefecture) => void;
+  handleCheckedPrefecture: (prefecture: Prefecture) => void;
+  handleUncheckedPrefecture: (prefName: string) => void;
 };
 export const PrefecturesSelect: FC<PropsType> = ({
   prefectures,
-  handleSelectPrefecture,
+  handleCheckedPrefecture,
+  handleUncheckedPrefecture,
 }) => {
   const handleChangePrefecture = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
-    handleSelectPrefecture({
-      prefCode: Number(target.value),
-      prefName: target.name,
-    });
+    if (target.checked) {
+      handleCheckedPrefecture({
+        prefCode: Number(target.value),
+        prefName: target.name,
+      });
+    } else {
+      handleUncheckedPrefecture(target.name);
+    }
   };
   return (
     <div>
       {prefectures.map((prefecture) => (
         <span key={prefecture.prefCode}>
-          <label htmlFor={prefecture.prefName}>{prefecture.prefName}</label>
           <input
             type="checkbox"
             id={prefecture.prefName}
@@ -28,6 +33,7 @@ export const PrefecturesSelect: FC<PropsType> = ({
             value={prefecture.prefCode}
             onChange={handleChangePrefecture}
           />
+          <label htmlFor={prefecture.prefName}>{prefecture.prefName}</label>
         </span>
       ))}
     </div>
