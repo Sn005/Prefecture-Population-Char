@@ -1,14 +1,16 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { Prefecture } from "../../services/prefectures/models";
 import { getAllPrefectures } from "../../services/prefectures/api";
-import { Population } from "../../services/populations/models";
 import { getPopulation } from "../../services/populations/api";
 import { PrefecturesSelect } from "../organisms/PrefecturesSelect";
-import { ChartData } from "../organisms/PrefecturePopulationChart";
+import {
+  PrefecturePopulationChart,
+  ChartData,
+} from "../organisms/PrefecturePopulationChart";
 
 export const Home: FC = () => {
   const [prefectures, setPrefectures] = useState<Prefecture[] | null>(null);
-  const [chartData, setChartData] = useState<ChartData[] | null>(null);
+  const [chartDataList, setChartDataList] = useState<ChartData[] | null>(null);
   const handleCheckedPrefecture = useCallback(
     async ({ prefCode, prefName }: Prefecture) => {
       const fetchedPopulation = await getPopulation(prefCode);
@@ -16,26 +18,26 @@ export const Home: FC = () => {
         prefName,
         data: fetchedPopulation,
       };
-      if (chartData === null) {
-        setChartData([newChartData]);
+      if (chartDataList === null) {
+        setChartDataList([newChartData]);
         return;
       }
-      if (chartData.find((v) => v.prefName === prefName) === undefined) {
-        setChartData([...chartData, newChartData]);
+      if (chartDataList.find((v) => v.prefName === prefName) === undefined) {
+        setChartDataList([...chartDataList, newChartData]);
         return;
       }
     },
-    [chartData]
+    [chartDataList]
   );
 
   const handleUncheckedPrefecture = useCallback(
     async (prefName: string) => {
-      if (chartData === null) return;
-      const isExit = !!chartData.find((v) => v.prefName === prefName);
+      if (chartDataList === null) return;
+      const isExit = !!chartDataList.find((v) => v.prefName === prefName);
       if (!isExit) return;
-      setChartData(chartData.filter((v) => v.prefName !== prefName));
+      setChartDataList(chartDataList.filter((v) => v.prefName !== prefName));
     },
-    [chartData]
+    [chartDataList]
   );
   useEffect(() => {
     (async () => {
@@ -48,12 +50,17 @@ export const Home: FC = () => {
     })();
   }, []);
   return (
-    prefectures && (
-      <PrefecturesSelect
-        prefectures={prefectures}
-        handleCheckedPrefecture={handleCheckedPrefecture}
-        handleUncheckedPrefecture={handleUncheckedPrefecture}
-      />
-    )
+    <>
+      {prefectures && (
+        <PrefecturesSelect
+          prefectures={prefectures}
+          handleCheckedPrefecture={handleCheckedPrefecture}
+          handleUncheckedPrefecture={handleUncheckedPrefecture}
+        />
+      )}
+      {chartDataList && (
+        <PrefecturePopulationChart chartDataList={chartDataList} />
+      )}
+    </>
   );
 };
