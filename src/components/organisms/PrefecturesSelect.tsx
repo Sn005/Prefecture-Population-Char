@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { Prefecture } from "../../services/prefectures/models";
 
-const PrefectureCheckBox = styled.span`
+const StyledPrefectureCheckBox = styled.span`
   > .prefecureInput {
     display: none;
     &:checked + .prefecureLabel::before {
@@ -15,8 +15,8 @@ const PrefectureCheckBox = styled.span`
     transition: background-color 0.2s linear;
     position: relative;
     display: inline-block;
-    margin: 0 20px 8px 0;
-    padding: 4px 4px 4px 24px;
+    /* margin: 0 20px 8px 0; */
+    padding: 8px 8px 8px 24px;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
     vertical-align: middle;
@@ -51,27 +51,29 @@ const PrefectureCheckBox = styled.span`
   }
 `;
 
-const PrefecuresListItem = styled.li`
+const StyledPrefecuresListItem = styled.li`
   list-style-type: none;
   display: inline-block;
-  margin-bottom: 4px;
+  margin-bottom: 20px;
   & + & {
-    margin-left: 4px;
+    margin-left: 20px;
   }
 `;
-const PrefecuresList = styled.ul`
-  margin-bottom: -4px;
+const StyledPrefecuresList = styled.ul`
+  margin-bottom: -20px;
 `;
-type PropsType = {
-  prefectures: Prefecture[];
+type PrefecureCheckBoxPropsType = {
+  prefecture: Prefecture;
   handleCheckedPrefecture: (prefecture: Prefecture) => void;
   handleUncheckedPrefecture: (prefName: string) => void;
 };
-export const PrefecturesSelect: FC<PropsType> = ({
-  prefectures,
+
+const PrefecureCheckBox: FC<PrefecureCheckBoxPropsType> = ({
+  prefecture,
   handleCheckedPrefecture,
   handleUncheckedPrefecture,
 }) => {
+  const [isChecked, setIsChecked] = useState(false);
   const handleChangePrefecture = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
     if (target.checked) {
@@ -82,26 +84,48 @@ export const PrefecturesSelect: FC<PropsType> = ({
     } else {
       handleUncheckedPrefecture(target.name);
     }
+    setIsChecked(target.checked);
   };
   return (
-    <PrefecuresList>
+    <StyledPrefectureCheckBox>
+      <input
+        type="checkbox"
+        id={prefecture.prefName}
+        name={prefecture.prefName}
+        value={prefecture.prefCode}
+        onChange={handleChangePrefecture}
+        className="prefecureInput"
+        checked={isChecked}
+      />
+      <label htmlFor={prefecture.prefName} className="prefecureLabel">
+        {prefecture.prefName}
+      </label>
+    </StyledPrefectureCheckBox>
+  );
+};
+
+type PrefecturesSelectType = {
+  prefectures: Prefecture[];
+  handleCheckedPrefecture: (prefecture: Prefecture) => void;
+  handleUncheckedPrefecture: (prefName: string) => void;
+};
+
+export const PrefecturesSelect: FC<PrefecturesSelectType> = ({
+  prefectures,
+  handleCheckedPrefecture,
+  handleUncheckedPrefecture,
+}) => {
+  return (
+    <StyledPrefecuresList>
       {prefectures.map((prefecture) => (
-        <PrefecuresListItem key={prefecture.prefCode}>
-          <PrefectureCheckBox>
-            <input
-              type="checkbox"
-              id={prefecture.prefName}
-              name={prefecture.prefName}
-              value={prefecture.prefCode}
-              onChange={handleChangePrefecture}
-              className="prefecureInput"
-            />
-            <label htmlFor={prefecture.prefName} className="prefecureLabel">
-              {prefecture.prefName}
-            </label>
-          </PrefectureCheckBox>
-        </PrefecuresListItem>
+        <StyledPrefecuresListItem key={prefecture.prefCode}>
+          <PrefecureCheckBox
+            prefecture={prefecture}
+            handleCheckedPrefecture={handleCheckedPrefecture}
+            handleUncheckedPrefecture={handleUncheckedPrefecture}
+          />
+        </StyledPrefecuresListItem>
       ))}
-    </PrefecuresList>
+    </StyledPrefecuresList>
   );
 };

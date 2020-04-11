@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useState, useEffect } from "react";
 import styled from "styled-components";
 
 const StyledDefault = styled.div`
@@ -11,9 +11,14 @@ const StyledDefault = styled.div`
 export const Default: FC<{
   headerComponent: ReactNode;
   mainPainComponent: ReactNode;
-}> = ({ headerComponent, mainPainComponent }) => (
-  <StyledDefault>
-    <div className="header">{headerComponent}</div>
-    <div className="mainPain">{mainPainComponent}</div>
-  </StyledDefault>
-);
+}> = ({ headerComponent, mainPainComponent }) => {
+  const [MainPainComponent, setMainPainComponent] = useState<ReactNode | null>(
+    null
+  );
+  return (
+    <StyledDefault>
+      <div className="header">{headerComponent}</div>
+      <div className="mainPain">{mainPainComponent}</div>
+    </StyledDefault>
+  );
+};

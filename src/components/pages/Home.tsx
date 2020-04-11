@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC, useState, useEffect, useCallback, Children } from "react";
 import { Prefecture } from "../../services/prefectures/models";
 import { getAllPrefectures } from "../../services/prefectures/api";
 import { getPopulation } from "../../services/populations/api";
@@ -10,6 +10,30 @@ import {
   ChartData,
 } from "../organisms/PrefecturePopulationChart";
 
+const MainPainComponent: FC<{
+  prefectures: Prefecture[] | null;
+  chartDataList: ChartData[] | null;
+  handleCheckedPrefecture: (prefecture: Prefecture) => void;
+  handleUncheckedPrefecture: (prefName: string) => void;
+}> = ({
+  prefectures,
+  chartDataList,
+  handleCheckedPrefecture,
+  handleUncheckedPrefecture,
+}) => (
+  <>
+    {prefectures && (
+      <PrefecturesSelect
+        prefectures={prefectures}
+        handleCheckedPrefecture={handleCheckedPrefecture}
+        handleUncheckedPrefecture={handleUncheckedPrefecture}
+      />
+    )}
+    {chartDataList && (
+      <PrefecturePopulationChart chartDataList={chartDataList} />
+    )}
+  </>
+);
 export const Home: FC = () => {
   const [prefectures, setPrefectures] = useState<Prefecture[] | null>(null);
   const [chartDataList, setChartDataList] = useState<ChartData[] | null>(null);
@@ -51,25 +75,19 @@ export const Home: FC = () => {
       }
     })();
   }, []);
-  const MainPainComponent = () => (
-    <>
-      {prefectures && (
-        <PrefecturesSelect
-          prefectures={prefectures}
-          handleCheckedPrefecture={handleCheckedPrefecture}
-          handleUncheckedPrefecture={handleUncheckedPrefecture}
-        />
-      )}
-      {chartDataList && (
-        <PrefecturePopulationChart chartDataList={chartDataList} />
-      )}
-    </>
-  );
+
   return (
     <>
       <Default
         headerComponent={<AppHeader />}
-        mainPainComponent={<MainPainComponent />}
+        mainPainComponent={
+          <MainPainComponent
+            prefectures={prefectures}
+            chartDataList={chartDataList}
+            handleCheckedPrefecture={handleCheckedPrefecture}
+            handleUncheckedPrefecture={handleUncheckedPrefecture}
+          />
+        }
       />
     </>
   );
