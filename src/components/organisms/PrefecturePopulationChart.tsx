@@ -42,21 +42,15 @@ export const PrefecturePopulationChart: FC<{ chartDataList: ChartData[] }> = ({
     })();
   }, [chartDataList]);
   return (
-    <LineChart
-      width={600}
-      height={400}
-      data={formatedChartDataList}
-      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-    >
+    <LineChart width={800} height={400} data={formatedChartDataList}>
       {chartDataList.map((chartData) => {
         return <Line key={chartData.prefName} dataKey={chartData.prefName} />;
       })}
-      {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
       <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
       <XAxis dataKey="year" />
       <YAxis />
       <Tooltip />
-      <Legend />
+      <Legend layout="horizontal" align="center" verticalAlign="top" />
     </LineChart>
   );
 };
