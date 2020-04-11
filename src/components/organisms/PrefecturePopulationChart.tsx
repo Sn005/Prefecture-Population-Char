@@ -43,6 +43,12 @@ export const PrefecturePopulationChart: FC<{ chartDataList: ChartData[] }> = ({
   }, [chartDataList]);
   return (
     <LineChart width={800} height={400} data={formatedChartDataList}>
+      <Legend
+        layout="horizontal"
+        align="center"
+        verticalAlign="bottom"
+        margin={{ top: 20 }}
+      />
       {chartDataList.map((chartData) => {
         return <Line key={chartData.prefName} dataKey={chartData.prefName} />;
       })}
@@ -50,7 +56,6 @@ export const PrefecturePopulationChart: FC<{ chartDataList: ChartData[] }> = ({
       <XAxis dataKey="year" />
       <YAxis />
       <Tooltip />
-      <Legend layout="horizontal" align="center" verticalAlign="top" />
     </LineChart>
   );
 };

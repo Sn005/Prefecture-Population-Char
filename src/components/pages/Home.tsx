@@ -2,6 +2,8 @@ import React, { FC, useState, useEffect, useCallback } from "react";
 import { Prefecture } from "../../services/prefectures/models";
 import { getAllPrefectures } from "../../services/prefectures/api";
 import { getPopulation } from "../../services/populations/api";
+import { Default } from "../templates/default";
+import { AppHeader } from "../organisms/AppHader";
 import { PrefecturesSelect } from "../organisms/PrefecturesSelect";
 import {
   PrefecturePopulationChart,
@@ -49,7 +51,7 @@ export const Home: FC = () => {
       }
     })();
   }, []);
-  return (
+  const MainPainComponent = () => (
     <>
       {prefectures && (
         <PrefecturesSelect
@@ -61,6 +63,14 @@ export const Home: FC = () => {
       {chartDataList && (
         <PrefecturePopulationChart chartDataList={chartDataList} />
       )}
+    </>
+  );
+  return (
+    <>
+      <Default
+        headerComponent={<AppHeader />}
+        mainPainComponent={<MainPainComponent />}
+      />
     </>
   );
 };
