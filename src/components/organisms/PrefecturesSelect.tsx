@@ -17,6 +17,7 @@ const StyledPrefectureCheckBox = styled.span`
     display: inline-block;
     /* margin: 0 20px 8px 0; */
     padding: 8px 8px 8px 24px;
+    background-color: #fafafa;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
     vertical-align: middle;
