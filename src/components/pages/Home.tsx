@@ -16,18 +16,22 @@ export const Home: FC = () => {
   const [chartDataList, setChartDataList] = useState<ChartData[] | null>(null);
   const handleCheckedPrefecture = useCallback(
     async ({ prefCode, prefName }: Prefecture) => {
-      const fetchedPopulation = await getPopulation(prefCode);
-      const newChartData: ChartData = {
-        prefName,
-        data: fetchedPopulation,
-      };
-      if (chartDataList === null) {
-        setChartDataList([newChartData]);
-        return;
-      }
-      if (chartDataList.find((v) => v.prefName === prefName) === undefined) {
-        setChartDataList([...chartDataList, newChartData]);
-        return;
+      try {
+        const fetchedPopulation = await getPopulation(prefCode);
+        const newChartData: ChartData = {
+          prefName,
+          data: fetchedPopulation,
+        };
+        if (chartDataList === null) {
+          setChartDataList([newChartData]);
+          return;
+        }
+        if (chartDataList.find((v) => v.prefName === prefName) === undefined) {
+          setChartDataList([...chartDataList, newChartData]);
+          return;
+        }
+      } catch (e) {
+        throw new Error(e);
       }
     },
     [chartDataList]
