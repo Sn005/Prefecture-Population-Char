@@ -2,12 +2,12 @@ import React, { FC, useState, useEffect, useCallback } from "react";
 import { Prefecture } from "../../services/prefectures/models";
 import { getAllPrefectures } from "../../services/prefectures/api";
 import { getPopulation } from "../../services/populations/api";
-import { Default } from "../templates/default";
+import { Default } from "../templates/Default";
 import { AppHeader } from "../organisms/AppHader";
 import {
   PrefecturePopulationChart,
   ChartData,
-} from "../organisms/PrefecturePopulationChart/index";
+} from "../organisms/PrefecturePopulationChart/";
 
 export const Home: FC = () => {
   const [prefectureList, setPrefectureList] = useState<Prefecture[] | null>(
