@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledLayout = styled.div`
   & > .header {
-    margin-bottom: 24px;
+    margin-bottom: 40px;
   }
   & > .main {
     display: flex;
