@@ -13,6 +13,8 @@ import { Population } from "../../../services/populations/models";
 import { ChartData } from "./index";
 
 const StyledChartWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   width: 960px;
   padding: 24px;
   background-color: #fafafa;
@@ -49,7 +51,7 @@ export const Chart: FC<{ chartDataList: ChartData[] }> = ({
   }, [chartDataList]);
   return (
     <StyledChartWrapper>
-      <LineChart width={800} height={400} data={formatedChartDataList}>
+      <LineChart width={940} height={400} data={formatedChartDataList}>
         <Legend
           layout="horizontal"
           align="center"
@@ -61,7 +63,7 @@ export const Chart: FC<{ chartDataList: ChartData[] }> = ({
         })}
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
         <XAxis dataKey="year" />
-        <YAxis />
+        <YAxis width={100} />
         <Tooltip />
       </LineChart>
     </StyledChartWrapper>
