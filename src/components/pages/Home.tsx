@@ -34,7 +34,7 @@ export const Home: FC = () => {
   );
 
   const handleUncheckedPrefecture = useCallback(
-    async (prefName: string) => {
+    (prefName: string) => {
       if (chartDataList === null) return;
       const isExit = !!chartDataList.find((v) => v.prefName === prefName);
       if (!isExit) return;
